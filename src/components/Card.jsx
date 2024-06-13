@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import ModalEdit from "./ModalEdit";
 
 const Card = ({
+ 
   setBooks,
   setbookName,
   books,
@@ -13,6 +14,7 @@ const Card = ({
   setModalEdit,
   modalEdit,
   toggleModalEdit,
+  handleEditClick 
 }) => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
@@ -39,7 +41,7 @@ const Card = ({
           </button>
           <button
             className="btn btn-primary"
-            onClick={() => setModalEdit(true)}
+            onClick={() => handleEditClick (book.id)}
           >
             Düzenle
           </button>
@@ -55,7 +57,7 @@ const Card = ({
         {modal && (
           <Modal book={book} handleDelete={handleDelete} setModal={setModal} />
         )}
-        {modalEdit && (
+        {/* {modalEdit && (
           <ModalEdit
             books={books}
             setBooks={setBooks}
@@ -65,7 +67,7 @@ const Card = ({
             setModalEdit={setModalEdit}
             toggleModalEdit={toggleModalEdit}
           />
-        )}
+        )} */}
       </div>
     </>
   );

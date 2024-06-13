@@ -3,11 +3,13 @@ import Form from "./components/Form";
 import Card from "./components/Card";
 import { v4 } from "uuid";
 import { toast } from "react-toastify";
+import ModalEdit from "./components/ModalEdit";
 
 const App = () => {
   const [bookName, setbookName] = useState("");
   const [books, setBooks] = useState([]);
   const [modalEdit, setModalEdit] = useState(false);
+  const [editedId, setEditedId] = useState(null);
 
   const toggleModalEdit = () => {
     setModalEdit(!modalEdit);
@@ -84,7 +86,11 @@ const App = () => {
       position: "top-right",
     });
   };
-  console.log(books);
+
+  const handleEditClick = (id) => {
+    setEditedId(id);
+    setModalEdit(true);
+  };
 
   return (
     <div>
@@ -104,26 +110,21 @@ const App = () => {
             <Card
               key={book.id}
               book={book}
-              books={books}
-              bookName={bookName}
-              setbookName={setbookName}
-              setBooks={setBooks}
               handleDelete={handleDeleteBook}
               handleIsRead={handleIsReadBook}
-              setModalEdit={setModalEdit}
-              modalEdit={modalEdit}
-              toggleModalEdit={toggleModalEdit}
+              handleEditClick={handleEditClick}
             />
           ))}
         </div>
       </div>
-      {/* {
-        modalEdit && <ModalEdit
-        book={editedId}
-        toggleModalEdit={toggleModalEdit}
-        handleEdit={handleEditBookInfo}
-      />
-      } */}
+      {modalEdit && (
+        <ModalEdit
+          books={books}
+          editedId={editedId}
+          setBooks={setBooks}
+          setModalEdit={setModalEdit}
+        />
+      )}
     </div>
   );
 };

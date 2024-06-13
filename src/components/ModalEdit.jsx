@@ -3,22 +3,23 @@ import { toast } from "react-toastify";
 
 const ModalEdit = ({
   books,
-  book,
-  toggleModalEdit,
-  setBooks,
-  setbookName,
+  setBooks, 
   setModalEdit,
+  editedId, 
 }) => {
-  const [editedInput, setEditedInput] = useState(book.title);
+  const [editedInput, setEditedInput] = useState("");
 
   const handleChangeTitle = (e) => {
     setEditedInput(e.target.value);
   };
-  console.log(books, "boooks", book);
-  const handleEditBookInfo = (id) => {
+
+
+  const currentBook = books.find((book) => book.id === editedId);
+
+  const handleEditBookInfo = () => {
     //kitapı güncelle
     const updatedBook = {
-      ...book,
+      ...currentBook,
       title: editedInput,
       date: new Date().toLocaleString(),
     };
@@ -26,7 +27,7 @@ const ModalEdit = ({
     // copyBooks.splice(index,1,updatedBook);
 
     const updatedBooks = books.map((editedBook) =>
-      editedBook.id === id ? updatedBook : editedBook
+      editedBook.id === editedId ? updatedBook : editedBook
     );
 
     setBooks(updatedBooks);
@@ -34,7 +35,7 @@ const ModalEdit = ({
     //modalı kapat
     setModalEdit(false);
     //inputu temizle.
-    setbookName("");
+    setEditedInput("");
     //alert göster
     toast.dark("Kitap Başarıyla Güncellendi!", {
       position: "top-right",
@@ -49,16 +50,16 @@ const ModalEdit = ({
             className="form-control shadow"
             id="editedInput"
             onChange={handleChangeTitle}
-            defaultValue={editedInput}
+            defaultValue={currentBook.title}
           />
         </div>
         <div className="d-flex flex-column gap-3">
-          <button className="btn btn-danger" onClick={toggleModalEdit}>
+          <button className="btn btn-danger" onClick={() => setModalEdit(false)}>
             Vazgeç
           </button>
           <button
             className="btn btn-warning"
-            onClick={() => handleEditBookInfo(book.id)}
+            onClick={handleEditBookInfo}
           >
             Kaydet
           </button>
